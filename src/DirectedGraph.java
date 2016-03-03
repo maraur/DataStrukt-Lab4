@@ -2,14 +2,17 @@
 import java.util.*;
 
 public class DirectedGraph<E extends Edge> {
-    ArrayList nodList;
+    ArrayList edgeList;
+    int numbOfNodes;
+    CompKruskalEdge kruskObject;
 	public DirectedGraph(int noOfNodes) {
-		nodList = new ArrayList(noOfNodes);
+		edgeList = new ArrayList();
+        numbOfNodes = noOfNodes;
     }
 
 	public void addEdge(E e) {
         if(e != null) {
-            nodList.add(e);
+            edgeList.add(e);
         }
 	}
 
@@ -18,7 +21,8 @@ public class DirectedGraph<E extends Edge> {
 	}
 		
 	public Iterator<E> minimumSpanningTree() {
-		return null;
+		kruskObject = new CompKruskalEdge(edgeList, numbOfNodes);
+        return kruskObject.findMinimumSpanningTree();
 	}
 
 }
