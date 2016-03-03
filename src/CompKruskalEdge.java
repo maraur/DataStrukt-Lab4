@@ -24,19 +24,24 @@ public class CompKruskalEdge<E extends Edge> {
 
     }
     public Iterator<E> findMinimumSpanningTree() {
-        ArrayList<ArrayList> edgeList = new ArrayList<>(this.edgeList.size());
+        ArrayList<ArrayList> resultList = new ArrayList<>(numbOfNodes-1);
+        for (int i = 0; i < numbOfNodes; i++) {
+            resultList.add(new ArrayList());
+        }
         ArrayList fromList;
-        ArrayList toList = new ArrayList();
-        while (toList.size() == numbOfNodes-1) {
+        ArrayList toList;
+        do {
             BusEdge smallest = prioQueue.poll();
-            toList = edgeList.get(smallest.to);
-            fromList = edgeList.get(smallest.from);
+            toList = resultList.get(smallest.to);
+            fromList = resultList.get(smallest.from);
             if(toList != fromList) {
                 toList.add(smallest);
                 toList.addAll(fromList);
-                fromList = toList;
+                resultList.set(smallest.to, toList);
+                resultList.set(smallest.from, toList);
+                System.out.println(toList.size()); //todo dodoodadwd
             }
-        }
+        }while(toList.size() < numbOfNodes-1);
         return toList.iterator();
     }
 

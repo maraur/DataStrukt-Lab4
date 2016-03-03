@@ -2,7 +2,7 @@
 import java.util.*;
 
 public class DirectedGraph<E extends Edge> {
-    ArrayList edgeList;
+    ArrayList<BusEdge> edgeList;
     int numbOfNodes;
     CompKruskalEdge kruskObject;
 	public DirectedGraph(int noOfNodes) {
@@ -12,7 +12,7 @@ public class DirectedGraph<E extends Edge> {
 
 	public void addEdge(E e) {
         if(e != null) {
-            edgeList.add(e);
+            edgeList.add((BusEdge) e);
         }
 	}
 
