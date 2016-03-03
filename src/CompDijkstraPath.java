@@ -1,3 +1,4 @@
+import javax.xml.soap.Node;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -24,8 +25,42 @@ public class CompDijkstraPath<E extends Edge> {
     }
     public Iterator<E> findShortestPath(){
         prioQueue.add(new NodeEdge(startNode, null, 0));
-        
-        return null;
+        ArrayList resultArray = new ArrayList(); //todo don't initate
+        boolean[] visited = new boolean[numbOfNodes];
+        System.out.println(visited[13]); //todo
+        boolean innerLoop = true;
+        boolean outerLoop = true;
+        NodeEdge nextElement = new NodeEdge();
+        while(outerLoop) {
+            while (innerLoop) {
+                if (prioQueue.isEmpty()) {
+                    return null; //Not very good
+                }
+                nextElement = prioQueue.poll();
+                if (!visited[nextElement.getNod()]) {
+                    innerLoop = false;
+                    System.out.println("ending loop"); //todo
+                }
+            }
+            if(nextElement.getNod() == endNode){
+                outerLoop = false;
+                resultArray = nextElement.getEdges();
+            }else{
+                innerLoop = true;
+                int cNode = nextElement.getNod();
+                visited[cNode] = true;
+                for (BusEdge b : edgeList ) {
+                    if(b.from == cNode){
+                        ArrayList list = new ArrayList();
+                        list.add(b);
+                        list.addAll(nextElement.getEdges());
+                        prioQueue.add(new NodeEdge(b.to, list, (b.getWeight() + nextElement.getWeight())));
+                    }
+                }
+            }
+        }
+        System.out.println("Ended"); //// TODO: 2016-03-03
+        return resultArray.iterator();
     }
 
     private class EdgeComparator implements Comparator<NodeEdge> {
@@ -44,7 +79,8 @@ public class CompDijkstraPath<E extends Edge> {
         int nod;
         ArrayList<BusEdge> edges;
         double weight;
-        public NodeEdge(int nod, ArrayList list, int weight){
+        public NodeEdge(){} //needed to initate empty instances
+        public NodeEdge(int nod, ArrayList list, double weight){
             this.nod = nod;
             if(list != null){
                 edges = list;
