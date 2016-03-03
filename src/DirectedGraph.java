@@ -5,6 +5,7 @@ public class DirectedGraph<E extends Edge> {
     ArrayList<BusEdge> edgeList;
     int numbOfNodes;
     CompKruskalEdge kruskObject;
+    CompDijkstraPath dijkObject;
 	public DirectedGraph(int noOfNodes) {
 		edgeList = new ArrayList();
         numbOfNodes = noOfNodes;
@@ -17,7 +18,8 @@ public class DirectedGraph<E extends Edge> {
 	}
 
 	public Iterator<E> shortestPath(int from, int to) {
-		return null;
+		dijkObject = new CompDijkstraPath(from, to, edgeList,numbOfNodes);
+        return dijkObject.findShortestPath();
 	}
 		
 	public Iterator<E> minimumSpanningTree() {

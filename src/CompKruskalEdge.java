@@ -24,7 +24,6 @@ public class CompKruskalEdge<E extends Edge> {
 
     }
     public Iterator<E> findMinimumSpanningTree() {
-        System.out.println(numbOfNodes);//todo awdawdawdawdawfawfaw
         ArrayList<ArrayList> resultList = new ArrayList<>(numbOfNodes);
         for (int i = 0; i < numbOfNodes; i++) {
             resultList.add(new ArrayList());
@@ -56,7 +55,7 @@ public class CompKruskalEdge<E extends Edge> {
             }else if (o1.getWeight() < o2.getWeight()){
                 return -1;
             }
-            return 1;
+            return 0;
         }
     }
 }
