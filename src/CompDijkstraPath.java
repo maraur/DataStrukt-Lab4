@@ -27,7 +27,6 @@ public class CompDijkstraPath<E extends Edge> {
         prioQueue.add(new NodeEdge(startNode, null, 0));
         ArrayList resultArray = new ArrayList(); //todo don't initate
         boolean[] visited = new boolean[numbOfNodes];
-        System.out.println(visited[13]); //todo
         boolean innerLoop = true;
         boolean outerLoop = true;
         NodeEdge nextElement = new NodeEdge();
@@ -39,7 +38,6 @@ public class CompDijkstraPath<E extends Edge> {
                 nextElement = prioQueue.poll();
                 if (!visited[nextElement.getNod()]) {
                     innerLoop = false;
-                    System.out.println("ending loop"); //todo
                 }
             }
             if(nextElement.getNod() == endNode){
@@ -59,7 +57,6 @@ public class CompDijkstraPath<E extends Edge> {
                 }
             }
         }
-        System.out.println("Ended"); //// TODO: 2016-03-03
         return resultArray.iterator();
     }
 

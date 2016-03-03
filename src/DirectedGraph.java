@@ -18,7 +18,6 @@ public class DirectedGraph<E extends Edge> {
 	}
 
 	public Iterator<E> shortestPath(int from, int to) {
-        System.out.println("Started"); //// TODO: 2016-03-03
 		dijkObject = new CompDijkstraPath(from, to, edgeList,numbOfNodes);
         return dijkObject.findShortestPath();
 	}
