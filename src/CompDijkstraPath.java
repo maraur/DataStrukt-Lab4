@@ -1,5 +1,4 @@
-import javax.xml.soap.Node;
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -23,43 +22,51 @@ public class CompDijkstraPath<E extends Edge> {
         numbOfNodes = noOfNodes;
         prioQueue = new PriorityQueue<>(edgeList.size(), new EdgeComparator());
     }
+
+    /**
+     * Calculates the shortest path between two nodes and returns an iterator over the BusEdges in the
+     * shortest path.
+     * @return Iterator over BusEdges in the shortest path
+     */
     public Iterator<E> findShortestPath(){
-        prioQueue.add(new NodeEdge(startNode, null, 0));
-        ArrayList resultArray = new ArrayList(); //todo don't initate
-        boolean[] visited = new boolean[numbOfNodes];
+        prioQueue.add(new NodeEdge(startNode, null, 0)); //Add an empty NodeEdge
+        ArrayList resultArray = new ArrayList();
+        boolean[] visited = new boolean[numbOfNodes]; //Array for keeping track of what Nodes have been visited
         boolean innerLoop = true;
         boolean outerLoop = true;
         NodeEdge nextElement = new NodeEdge();
         while(outerLoop) {
             while (innerLoop) {
                 if (prioQueue.isEmpty()) {
-                    return null; //Not very good
+                    return null; //If reached something went wrong
                 }
                 nextElement = prioQueue.poll();
-                if (!visited[nextElement.getNod()]) {
+                if (!visited[nextElement.getNod()]) { //If node hasn't been visited
                     innerLoop = false;
                 }
             }
-            if(nextElement.getNod() == endNode){
+            if(nextElement.getNod() == endNode){ //If we've reached the endNode - end loops
                 outerLoop = false;
                 resultArray = nextElement.getEdges();
-            }else{
+            }else{ //Otherwise loop again, make the new NodeEdges and add them to the priorityQueue
                 innerLoop = true;
                 int cNode = nextElement.getNod();
                 visited[cNode] = true;
-                for (BusEdge b : edgeList ) {
+                for (BusEdge b : edgeList ) { //Loop through the edgeList and make new paths
                     if(b.from == cNode){
                         ArrayList list = new ArrayList();
                         list.add(b);
                         list.addAll(nextElement.getEdges());
-                        prioQueue.add(new NodeEdge(b.to, list, (b.getWeight() + nextElement.getWeight())));
+                        prioQueue.add(new NodeEdge(b.to, list, (b.getWeight() + nextElement.getWeight()))); //Add the new path to the PriorityQueue
                     }
                 }
             }
         }
         return resultArray.iterator();
     }
-
+    /**
+     * Comparator for comparing BusEdges and sorting on their weight
+     */
     private class EdgeComparator implements Comparator<NodeEdge> {
         @Override
         public int compare(NodeEdge o1, NodeEdge o2) {
@@ -72,6 +79,10 @@ public class CompDijkstraPath<E extends Edge> {
         }
     }
 
+    /**
+     * Class for holding the different paths for nodes
+     * Used for holding several BusEdges at once and summing their weights
+     */
     public class NodeEdge{
         int nod;
         ArrayList<BusEdge> edges;

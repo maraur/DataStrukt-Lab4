@@ -21,8 +21,12 @@ public class CompKruskalEdge<E extends Edge> {
         for (int i = 0; i < edgeList.size(); i++) {
             prioQueue.add((BusEdge) edgeList.get(i));
         }
-
     }
+
+    /**
+     * Calculates MST and returns an Iterator of the objects in the MST.
+     * @return Iterator over objects in MST
+     */
     public Iterator<E> findMinimumSpanningTree() {
         ArrayList<ArrayList> resultList = new ArrayList<>(numbOfNodes);
         for (int i = 0; i < numbOfNodes; i++) {
@@ -34,7 +38,7 @@ public class CompKruskalEdge<E extends Edge> {
             BusEdge smallest = prioQueue.poll();
             toList = resultList.get(smallest.to);
             fromList = resultList.get(smallest.from);
-            if(toList != fromList) {
+            if(toList != fromList) { //if they don't reference the same list
                 toList.add(smallest);
                 toList.addAll(fromList);
                 for(int i = 0; i < toList.size(); i++){
@@ -46,6 +50,9 @@ public class CompKruskalEdge<E extends Edge> {
         return toList.iterator();
     }
 
+    /**
+     * Comparator for comparing BusEdges and sorting on their weight
+     */
     private static class EdgeComparator implements Comparator<BusEdge> {
 
         @Override
